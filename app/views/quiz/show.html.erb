@@ -2,3 +2,33 @@
   <strong>Title:</strong>
   <%= @quiz.title %>
 </p>
+
+
+<h2>Questions</h2>
+<% @quiz.questions.each do |question| %>
+  <p>
+    <strong>Question:</strong>
+    <%= question.question %>
+    <%= link_to 'Edit', [question.quiz, question] %>
+
+    <%= link_to 'Show', [question.quiz, question] %>
+    <%= link_to 'Destroy question', [question.quiz, question], method: :delete, data: {confirm:'Are you sure?'} %>
+  </p>
+
+<% end %>
+
+<h2>Add a question:</h2>
+
+<%= form_for ([@quiz, @quiz.questions.build]) do |f| %>
+  <p>
+    <%= f.label :question %><br>
+    <%= f.text_field :question %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
+
+
+
+<%= link_to 'Edit', edit_quiz_path(@quiz) %> | <%= link_to 'Back', quiz_index_path %>
