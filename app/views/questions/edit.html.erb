@@ -1,6 +1,6 @@
 <h1>Edit question</h1>
 
-<%= form_for :quiz, url: quiz_question_path(@question), method: :patch do |f| %>
+<%= form_for :question, url: quiz_question_path(@question.quiz, @question), method: :patch do |f| %>
 
 
 <p>
@@ -13,4 +13,4 @@
 
 <% end %>
 
-<%= link_to 'Back', quiz_questions_path %>
+<%= link_to 'Back', quiz_question_path %>

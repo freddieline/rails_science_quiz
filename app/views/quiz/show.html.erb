@@ -9,7 +9,7 @@
   <p>
     <strong>Question:</strong>
     <%= question.question %>
-    <%= link_to 'Edit', [question.quiz, question] %>
+    <%= link_to 'Edit', edit_quiz_question_path(question.quiz, question) %>
 
     <%= link_to 'Show', [question.quiz, question] %>
     <%= link_to 'Destroy question', [question.quiz, question], method: :delete, data: {confirm:'Are you sure?'} %>

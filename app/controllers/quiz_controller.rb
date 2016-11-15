@@ -1,4 +1,9 @@
 class QuizController < ApplicationController
+    
+  def do
+    @quiz = Quiz.find(params[:id])
+  end
+
   def index
     @quizzes = Quiz.all
   end
@@ -15,6 +20,7 @@ class QuizController < ApplicationController
     @quiz = Quiz.find(params[:id])
   end
 
+
   def create
     @quiz = Quiz.new(quiz_params)
    
@@ -27,7 +33,6 @@ class QuizController < ApplicationController
 
   def update
     @quiz = Quiz.find(params[:id])
-
     if @quiz.update(quiz_params)
       redirect_to @quiz
     end
@@ -39,6 +44,20 @@ class QuizController < ApplicationController
 
     redirect_to quiz_index_path
   end
+
+
+  def submit
+    puts "update from answers"
+
+    Answer.update(params[:answer].keys, params[:answer].values)
+    @answers = Quiz.find(params[:quiz_id]).answers
+
+    @answers.update_all()
+    redirect_to quiz_answers_path
+  end
+
+
+
 
   private
     def quiz_params

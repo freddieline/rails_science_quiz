@@ -5,22 +5,21 @@ class QuestionsController < ApplicationController
   def show
     @quiz = Quiz.find(params[:quiz_id])
     @question = @quiz.questions.find(params[:id])
+    
   end
 
 
   def edit
     @quiz = Quiz.find(params[:quiz_id])
     @question = @quiz.questions.find(params[:id])
-    redirect_to edit_quiz_question_path
+    
   end
 
   def update
     @quiz = Quiz.find(params[:quiz_id])
-    @question = @quiz.questions.find(question_params)
+    @question = @quiz.questions.find(params[:id])
 
-    if @question.save
-      redirect_to @question
-    else
+    if @question.update(question_params)
       redirect_to quiz_path(@quiz)
     end
   end

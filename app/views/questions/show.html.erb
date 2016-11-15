@@ -1,39 +1,42 @@
-<p>
-  <strong>Question:</strong>
-  <%= @question.question %>
+
+
+<strong>Question:</strong>
+<%= @question.question %>
 
 
 
-  <h2>Answers</h2>
-  <% @question.answers.each do |answer| %>
-    <p>
-      <strong>Answer:</strong>
-      <%= answer.answer %>
-
-    </p>
-    <p> 
-      <strong>Correct:</strong>
-      <%= answer.correct %>
-    </p>
-  <% end %>
+<h2>Answers</h2>
+<% @question.answers.each do |answer| %>
+  <p>
+    <strong>Answer:</strong>
+    <%= answer.answer %>
 
 
-  <h2>Add an answer:</h2>
-
-  <%= form_for([@question.quiz, @question, @question.answers.build]) do |f| %>
-    <p>
-      <%= f.label :answer %><br>
-      <%= f. text_field :answer %>
-    </p>
-    <p>
-      <%= f.label :correct %>
-      <%= f.check_box :correct %>
-    </p>
-    <p>
-      <%= f.submit%>
-    </p>
-  <% end %>
+    <strong>Correct:</strong>
+    <%= answer.correct %>
+    <%= link_to 'Destroy answer', [answer.question.quiz, answer.question, answer], method: :delete, data: {confirm: 'Are you sure?'} %>
 
 
-  <%= link_to 'Back', quiz_path(@question.quiz) %>
-</p>
+  </p>
+<% end %>
+
+
+<h2>Add an answer:</h2>
+
+<%= form_for([@question.quiz, @question, @question.answers.build]) do |f| %>
+  <p>
+    <%= f.label :answer %><br>
+    <%= f.text_field :answer %>
+  </p>
+  <p>
+    <%= f.label :correct %>
+    <%= f.check_box :correct %>
+  </p>
+  <p>
+    <%= f.submit%>
+  </p>
+<% end %>
+
+
+<%= link_to 'Back', quiz_path(@question.quiz) %>
+

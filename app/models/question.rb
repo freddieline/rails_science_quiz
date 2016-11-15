@@ -1,5 +1,5 @@
 class Question < ApplicationRecord
-  belongs_to :quiz, foreign_key: "quiz_id"
-  has_many :answers
+  belongs_to :quiz
+  has_many :answers, dependent: :destroy
                     
 end
