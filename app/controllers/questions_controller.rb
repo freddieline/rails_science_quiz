@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
 
- 
+  http_basic_authenticate_with name: "freddie", password: "Cathedral10"
+
 
   def show
     @quiz = Quiz.find(params[:quiz_id])

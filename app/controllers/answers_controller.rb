@@ -1,6 +1,7 @@
 class AnswersController < ApplicationController
 
-
+  http_basic_authenticate_with name: "freddie", password: "Cathedral10"
+  
   def index
     @quiz = Quiz.find(params[:quiz_id])
   end
@@ -34,22 +35,11 @@ class AnswersController < ApplicationController
     redirect_to controller: 'questions', action: 'show', quiz_id: @quiz.id, id: @question.id
   end
 
-  def submit
-    puts "update from answers"
-
-    @answers = Quiz.find(params[:quiz_id]).answers
-
-    @answers.update_all(["completed_at=?"])
-    redirect_to quiz_answers_path
-  end
-
 
   private 
     def submit_parameters
       params.require(:answer).permit(:selected)
     end
-
-
 
 
   private

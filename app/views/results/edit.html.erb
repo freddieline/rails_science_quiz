@@ -1,0 +1,43 @@
+<h1>
+  <strong>Title:</strong>
+  <%= @quiz.title %>
+</h1>
+<% @quizId = @quiz.id %>
+<% @result = @quiz.results.find(params[:id]) %>
+<% if !@result.hasSelectedOneAnswer %>
+  <div>
+    <h2>You have not filled in one answer per question</h2>
+  </div>
+<% end %>
+
+
+
+<%= form_tag(quiz_result_path(@quizId), method: "patch") do %>
+<% @qNumber=1 %>
+  <% @quiz.questions.each do |question| %>
+
+
+    <br/>
+    <p>
+      
+      <strong>Q
+      <%= @qNumber %>
+        :</strong>
+      <%= question.question %>
+      <% @qNumber+=1 %>
+    </p>
+    
+    <% question.answers.each do |answer| %>
+      <p>
+        <% @qid = question.id.to_s %>
+        <% @aid = answer.id.to_s %>
+        <%= check_box_tag @qid+"-"+@aid %>
+        <%= answer.answer %>
+      </p>
+    <% end %>
+    
+  <% end %>
+
+  <%= submit_tag 'Submit' %>
+
+<% end %>

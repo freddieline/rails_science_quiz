@@ -1,29 +1,17 @@
 <p>
   <strong>Title:</strong>
   <%= @quiz.title %>
+  <% @quizId = @quiz.id %>
 </p>
 
 
-<h2>Questions</h2>
 
-<%= form_for :answer, :url => submit_quiz_path(@quiz), :html => { :method => :put }  do |f| %>
+<h2>Name:</h2>
 
-  <% @quiz.questions.each do |question| %>
-    <br/>
-    <p>
-      <strong>Question:</strong>
-      <%= question.question %>
-    </p>
-    
-    <% question.answers.each do |answer| %>
-      <p>
-        <%= f.check_box :selected %>
-        <%= answer.answer %>
-      </p>
-    <% end %>
-    
-  <% end %>
+<%= form_tag(quiz_results_path(@quizId)) do %>
 
-  <%= f.submit %>
+
+  <%= text_field_tag :name %>
+  <%= submit_tag "Start quiz" %>
 
 <% end %>

@@ -1,5 +1,8 @@
 class QuizController < ApplicationController
-    
+  
+
+  http_basic_authenticate_with name: "freddie", password: "Cathedral10", only: [:edit, :new, :create, :update, :destroy, :show]
+
   def do
     @quiz = Quiz.find(params[:id])
   end
@@ -47,13 +50,7 @@ class QuizController < ApplicationController
 
 
   def submit
-    puts "update from answers"
-
-    Answer.update(params[:answer].keys, params[:answer].values)
-    @answers = Quiz.find(params[:quiz_id]).answers
-
-    @answers.update_all()
-    redirect_to quiz_answers_path
+    
   end
 
 

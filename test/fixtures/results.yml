@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  score: 1
+  total: 1
+  quiz: one
+
+two:
+  name: MyString
+  score: 1
+  total: 1
+  quiz: two
