@@ -9,17 +9,18 @@
     <h2>You have not filled in one answer per question</h2>
   </div>
 <% end %>
-
+<% if !@result.first_attempt %>
+  <div>
+    <h2>Sorry. You can't have more than one attempt</h2>
+  </div>
+<% end %>
 
 
 <%= form_tag(quiz_result_path(@quizId), method: "patch") do %>
 <% @qNumber=1 %>
   <% @quiz.questions.each do |question| %>
-
-
     <br/>
-    <p>
-      
+    <p>      
       <strong>Q
       <%= @qNumber %>
         :</strong>

@@ -13,11 +13,9 @@ class ResultsController < ApplicationController
 
     @quiz = Quiz.find(params[:quiz_id])
     @total = @quiz.questions.count
- 
     @result = @quiz.results.create(name:params[:name])
     @result.hasSelectedOneAnswer = true
-
-    puts "----------+++++++"
+    @result.first_attempt = true
     puts @result.hasSelectedOneAnswer
     if @result.save
       puts @result.id
@@ -30,50 +28,56 @@ class ResultsController < ApplicationController
     end
   end
 
-
   def update
 
     @quiz = Quiz.find(params[:quiz_id])
     @questions = Quiz.find(params[:quiz_id]).questions
     score = 0
     selected = 0
-    @questions.each do |question|
-      @qid = question.id.to_s
-      question.answers.each do |answer|
-        @aid = answer.id.to_s
-        @param = @qid+"-"+@aid
-        if params[:"#{@param}"]=="1"
-            selected += 1
-        end
-        if answer.correct==true
-          @correctAnswer = answer.id
+    @result = @quiz.results.find(params[:id])
+    if (@result.first_attempt==false)
+      render 'edit'
+    else
+      @result.first_attempt = false
+      @result.correct_questions.destroy_all
+      @result.incorrect_questions.destroy_all
+
+      @questions.each do |question|
+        @qid = question.id.to_s
+        question.answers.each do |answer|
+          @aid = answer.id.to_s
+          @param = @qid+"-"+@aid
           if params[:"#{@param}"]=="1"
-            score += 1
+              selected += 1
+          end
+          if answer.correct==true    
+            if params[:"#{@param}"]=="1"
+              @result.correct_questions.create(question:question.question,answer:answer.answer)
+              score += 1
+            else
+              @result.incorrect_questions.create(question:question.question,answer:answer.answer)
+            end
           end
         end
       end
-    end
-    puts selected
-    @result = @quiz.results.find(params[:id])
-
-    @result.update(score:score)
-
-    if !(selected==@quiz.questions.count)
-      puts "<<<<<<"
-      puts Result.column_names.include? 'hasSelectedOneAnswer'
-      @result.update(hasSelectedOneAnswer: false)
-      puts @result.hasSelectedOneAnswer
-      @result.save
-      render 'edit'
-
-
-    else
-      @result.hasSelectedOneAnswer = true
-      @result.save
-      redirect_to quiz_result_path(@quiz.id,@result.id)
+      @result.update(score:score)
+      if !(selected==@quiz.questions.count)
+        @result.update(hasSelectedOneAnswer: false)
+        render 'edit'
+      else
+        @result.hasSelectedOneAnswer = true
+        @result.save
+        redirect_to quiz_result_path(@quiz.id,@result.id)
+      end
     end
   end
 
+  def destroy 
+    @quiz = Quiz.find(params[:quiz_id])
+    @result = @quiz.results.find(params[:id])
+    @result.destroy
+    redirect_to quiz_results_path(@quiz)
+  end
 
   def show
     @quiz = Quiz.find(params[:quiz_id])

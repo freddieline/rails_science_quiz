@@ -31,21 +31,7 @@
 
 
 
-<h2>Results</h2>
-
-<% @quiz.results.each do |result| %>
-<p>
-    <strong>Name:</strong>
-    <%= result.name %>
-    <br/>
-    <strong>Score:</strong>
-    <%= result.score %>
-    <br/>
-    <strong>Score:</strong>
-    <%= result.total %>
-</p>
-<% end %>
-
+<%= link_to 'Results', quiz_results_path(@quiz.id) %> | 
 
 
 <%= link_to 'Edit', edit_quiz_path(@quiz) %> | <%= link_to 'Back', quiz_index_path %>

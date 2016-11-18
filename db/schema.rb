@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161117163758) do
+ActiveRecord::Schema.define(version: 20161118145920) do
 
   create_table "answers", force: :cascade do |t|
     t.string   "answer"
@@ -20,6 +20,24 @@ ActiveRecord::Schema.define(version: 20161117163758) do
     t.datetime "updated_at",  null: false
     t.boolean  "selected"
     t.index ["question_id"], name: "index_answers_on_question_id"
+  end
+
+  create_table "correct_questions", force: :cascade do |t|
+    t.string   "question"
+    t.string   "answer"
+    t.integer  "result_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["result_id"], name: "index_correct_questions_on_result_id"
+  end
+
+  create_table "incorrect_questions", force: :cascade do |t|
+    t.string   "question"
+    t.string   "answer"
+    t.integer  "result_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["result_id"], name: "index_incorrect_questions_on_result_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -50,6 +68,7 @@ ActiveRecord::Schema.define(version: 20161117163758) do
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
     t.boolean  "hasSelectedOneAnswer"
+    t.boolean  "first_attempt"
     t.index ["quiz_id"], name: "index_results_on_quiz_id"
   end
 

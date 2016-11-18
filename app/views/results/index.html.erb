@@ -1,0 +1,21 @@
+
+
+<h2>Results</h2>
+<% @quiz = Quiz.find(params[:quiz_id]) %>
+<% @quiz.results.each do |result| %>
+<p>
+    <strong>Name:</strong>
+    <%= result.name %>
+    
+    <strong>Score:</strong>
+    <%= result.score %>
+    
+    <strong>Score:</strong>
+    <%= result.total %>
+    <%= link_to 'Destroy result', [result.quiz, result], method: :delete, data: {confirm:'Are you sure?'} %>
+
+
+</p>
+<% end %>
+
+<%= link_to 'Quizzes', quiz_index_path %>
