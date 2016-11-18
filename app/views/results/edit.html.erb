@@ -14,7 +14,7 @@
     <h2>Sorry. You can't have more than one attempt</h2>
   </div>
 <% end %>
-
+<p>Please select one answer per question</p>
 
 <%= form_tag(quiz_result_path(@quizId), method: "patch") do %>
 <% @qNumber=1 %>
