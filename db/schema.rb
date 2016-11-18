@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161118145920) do
+ActiveRecord::Schema.define(version: 20161118102721) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "answers", force: :cascade do |t|
     t.string   "answer"
@@ -18,8 +21,7 @@ ActiveRecord::Schema.define(version: 20161118145920) do
     t.integer  "question_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.boolean  "selected"
-    t.index ["question_id"], name: "index_answers_on_question_id"
+    t.index ["question_id"], name: "index_answers_on_question_id", using: :btree
   end
 
   create_table "correct_questions", force: :cascade do |t|
@@ -28,7 +30,7 @@ ActiveRecord::Schema.define(version: 20161118145920) do
     t.integer  "result_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["result_id"], name: "index_correct_questions_on_result_id"
+    t.index ["result_id"], name: "index_correct_questions_on_result_id", using: :btree
   end
 
   create_table "incorrect_questions", force: :cascade do |t|
@@ -37,7 +39,7 @@ ActiveRecord::Schema.define(version: 20161118145920) do
     t.integer  "result_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["result_id"], name: "index_incorrect_questions_on_result_id"
+    t.index ["result_id"], name: "index_incorrect_questions_on_result_id", using: :btree
   end
 
   create_table "questions", force: :cascade do |t|
@@ -45,7 +47,7 @@ ActiveRecord::Schema.define(version: 20161118145920) do
     t.integer  "quiz_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["quiz_id"], name: "index_questions_on_quiz_id"
+    t.index ["quiz_id"], name: "index_questions_on_quiz_id", using: :btree
   end
 
   create_table "quizzes", force: :cascade do |t|
@@ -64,12 +66,17 @@ ActiveRecord::Schema.define(version: 20161118145920) do
     t.string   "name"
     t.integer  "score"
     t.integer  "total"
+    t.boolean  "first_attempt"
+    t.boolean  "hasSelectedOneAnswer"
     t.integer  "quiz_id"
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
-    t.boolean  "hasSelectedOneAnswer"
-    t.boolean  "first_attempt"
-    t.index ["quiz_id"], name: "index_results_on_quiz_id"
+    t.index ["quiz_id"], name: "index_results_on_quiz_id", using: :btree
   end
 
+  add_foreign_key "answers", "questions"
+  add_foreign_key "correct_questions", "results"
+  add_foreign_key "incorrect_questions", "results"
+  add_foreign_key "questions", "quizzes"
+  add_foreign_key "results", "quizzes"
 end
