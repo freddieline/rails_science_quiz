@@ -35,41 +35,42 @@ class ResultsController < ApplicationController
     score = 0
     selected = 0
     @result = @quiz.results.find(params[:id])
-    if (@result.first_attempt==false)
-      render 'edit'
-    else
-      @result.first_attempt = false
-      @result.correct_questions.destroy_all
-      @result.incorrect_questions.destroy_all
+    @result.correct_questions.destroy_all
+    @result.incorrect_questions.destroy_all
 
-      @questions.each do |question|
-        @qid = question.id.to_s
-        question.answers.each do |answer|
-          @aid = answer.id.to_s
-          @param = @qid+"-"+@aid
+    @questions.each do |question|
+      @qid = question.id.to_s
+      question.answers.each do |answer|
+        @aid = answer.id.to_s
+        @param = @qid+"-"+@aid
+        if params[:"#{@param}"]=="1"
+            selected += 1
+        end
+        if answer.correct==true    
           if params[:"#{@param}"]=="1"
-              selected += 1
-          end
-          if answer.correct==true    
-            if params[:"#{@param}"]=="1"
-              @result.correct_questions.create(question:question.question,answer:answer.answer)
-              score += 1
-            else
-              @result.incorrect_questions.create(question:question.question,answer:answer.answer)
-            end
+            @result.correct_questions.create(question:question.question,answer:answer.answer)
+            score += 1
+          else
+            @result.incorrect_questions.create(question:question.question,answer:answer.answer)
           end
         end
       end
-      @result.update(score:score)
-      if !(selected==@quiz.questions.count)
-        @result.update(hasSelectedOneAnswer: false)
+    end
+    @result.update(score:score)
+    if !(selected==@quiz.questions.count)
+      @result.update(hasSelectedOneAnswer: false)
+      render 'edit'
+    else
+      @result.hasSelectedOneAnswer = true
+      @result.save
+      if (@result.first_attempt==false)
+        @result.first_attempt = false
         render 'edit'
       else
-        @result.hasSelectedOneAnswer = true
-        @result.save
         redirect_to quiz_result_path(@quiz.id,@result.id)
       end
     end
+
   end
 
   def destroy 

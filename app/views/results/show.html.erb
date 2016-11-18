@@ -50,6 +50,10 @@
 <br>
 <br>
 
+<% if @percentage<0.3 %>
+<%= image_tag "dogfail.gif" %>
+<% end %>
+
 <% if @percentage>0.67 %>
 <pre>
 <div class="art">
