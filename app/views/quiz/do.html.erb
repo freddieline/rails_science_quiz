@@ -12,7 +12,7 @@
 <%= form_tag(quiz_results_path(@quizId)) do %>
 
 
-  <%= text_field_tag :name %><br><br>
+  <%= text_field_tag :name, :class => 'text-input' %><br><br>
   <%= submit_tag "Start quiz", :class => 'btn' %>
 
 <% end %>
