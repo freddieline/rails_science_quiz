@@ -5,15 +5,16 @@
 </h1>
 
 
-<p>
+<h3>
+
 <strong>Name:</strong>
 
 <%= form_tag(quiz_results_path(@quizId)) do %>
 
 
-  <%= text_field_tag :name %>
-  <%= submit_tag "Start quiz" 'Submit', :class => 'btn' %>
+  <%= text_field_tag :name %><br>
+  <%= submit_tag "Start quiz", :class => 'btn' %>
 
 <% end %>
 
-</p>
+</h3>
