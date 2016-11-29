@@ -1,9 +1,11 @@
 <h1>
-
   <%= @quiz.title %>
 </h1>
+
+  <h2>You have <span id="timer">120</span> seconds left</h2>
 <% @quizId = @quiz.id %>
 <% @result = @quiz.results.find(params[:id]) %>
+
 <% if !@result.hasSelectedOneAnswer %>
   <div>
     <h2>You have not filled in one answer per question</h2>

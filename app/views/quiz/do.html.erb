@@ -1,19 +1,17 @@
-<h1>
 
+
+<h1>
   <%= @quiz.title %>
   <% @quizId = @quiz.id %>
 </h1>
-
-
 <h3>
 
 <strong>Name:</strong>
 
 <%= form_tag(quiz_results_path(@quizId)) do %>
 
-
   <%= text_field_tag :name %><br><br>
-  <%= submit_tag "Start quiz", :class => 'btn' %>
+  <%= submit_tag "Start quiz", :class => 'btn', :id => 'startButton' %>
 
 <% end %>
 

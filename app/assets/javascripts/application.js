@@ -14,3 +14,49 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+
+$(document).ready(function() {
+
+
+
+    $("#startButton").on('click', function() {
+      localStorage.setItem('start','true');
+      console.log(localStorage.getItem('start'));
+    });
+
+    if (localStorage.getItem('start')){
+      attemptQuiz();
+      start(120);
+    }
+
+    function attemptQuiz(){
+      if(typeof(Storage) !== 'undefined') {
+        if (localStorage.clickcount){
+            console.log("You've already had your time "+localStorage.clickcount);
+            document.write("<h1>Sorry! Time's up</h1><iframe src='//giphy.com/embed/sHRghQMiwVuDu' width='480' height='287' frameBorder='0' allowFullScreen></iframe>");
+        }
+          localStorage.clickcount = 1;
+          console.log(localStorage.clickcount);
+      }
+    }
+
+    function start(counter)
+    {  
+      if(!counter==0){
+        setTimeout(function(){ 
+          counter--;
+          $("#timer").html(counter); 
+          start(counter)
+          
+          }, 1000);
+      }
+      else{
+          console.log("time's up "+localStorage.clickcount);
+          document.write("<h1>Sorry! Time's up</h1><iframe src='//giphy.com/embed/sHRghQMiwVuDu' width='480' height='287' frameBorder='0' allowFullScreen></iframe>");
+
+          localStorage.setItem('timedOut','true');
+      }
+    }
+
+});
