@@ -16,21 +16,9 @@
 //= require_tree .
 
 
-$(document).ready(function() {
 
-
-
-    $("#startButton").on('click', function() {
-      localStorage.setItem('start','true');
-      console.log(localStorage.getItem('start'));
-    });
-
-    if (localStorage.getItem('start')){
-      attemptQuiz();
-      start(120);
-    }
-
-    function attemptQuiz(){
+ function attemptQuiz(){
+      
       if(typeof(Storage) !== 'undefined') {
         if (localStorage.clickcount){
             console.log("You've already had your time "+localStorage.clickcount);
@@ -39,16 +27,18 @@ $(document).ready(function() {
           localStorage.clickcount = 1;
           console.log(localStorage.clickcount);
       }
+      start(120);
     }
 
-    function start(counter)
+
+  function start(counter)
     {  
       if(!counter==0){
         setTimeout(function(){ 
           counter--;
           $("#timer").html(counter); 
           start(counter)
-          
+          console.log(counter);
           }, 1000);
       }
       else{
@@ -57,6 +47,7 @@ $(document).ready(function() {
 
           localStorage.setItem('timedOut','true');
       }
-    }
+  }
 
+$(document).ready(function() {
 });
